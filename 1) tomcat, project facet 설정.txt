@@ -1,0 +1,299 @@
+1) tomcat, project facet 설정
+2) pom.xml 수정
+	java-version 수정
+	spring-version 수정
+
+	spring-jdbc 추가 (스프링 4 이후부터 mybatis 연동 안되는 문제로 인해 였던가)
+	spring-test
+	mybatis-spring
+	mybatis
+
+	junit 버전 변경
+		SpringJUnit4ClassRunner 클래스는 JUnit 4.12 이상의 버전을 요구한다.
+
+	mariadb connector 추가 (제거)
+	mysql connector에 timezone, ssl 설정등을 추가하는 걸로 대체
+
+
+root-context.xml (src/main/webapp/WEB-INF/spring/root-context.xml)
+	웹자원과 관련되지 않은 모든 자원의 설정을 위해 존재 
+		(웹과 관련된 설정은 appServlet 디렉터리 내의 servlet-context.xml로 분리)
+
+	네임스페이스 추가
+		스프링 프레임워크상의 다양한 설정을 위해 사용가능한 XML태그의 폭을 넓혀주는 단계
+		aop, beans, context, jdbc, mybatis-spring
+
+	DataSource 설정
+		<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+			<property name="driverClassName" value="org.mariadb.jdbc.Driver" />
+			<property name="url" value="jdbc:mariadb://localhost:3306/scrapper" />
+			<property name="username" value="scrapper" />
+			<property name="password" value="1111" />	
+		</bean>
+
+mysql 접속 테스트
+	DataSourceTest.java 작성
+		소스코드 참고
+
+
+--------
+mybatis 연동
+
+	mybatis-config.xml 작성
+		mybatis 연동 xml
+			mybatis 연동 xml에는 보통 connection을 어떻게 할지에 대한 설정을 적어둔다.
+			스프링을 사용하지 않은 경우에는 mybatis 설정파일에 보통 접속정보를 입력하지만 Spring최신버전부터는 
+			무언가를 지원을 안해서 ...
+
+			이클립스 플러그인 설치 (취소)
+				이클립스 [Help] -> [Eclipse Marketplace] -> orm 입력 -> Enter -> Java ORM Plugin for Eclipse beta 선택, install  
+
+
+			mybatis-config.xml 작성
+				src/main/resources 디렉터리에 config 디렉터리 생성
+				src/main/resources/config 디렉터리 우클릭 -> xml 파일 생성
+				mybatis-config.xml파일에 <configuration>등의 정보 입력 (자세한 내용은 소스 참고)
+				ex)
+					<?xml version="1.0" encoding="UTF-8" ?>
+					<!DOCTYPE configuration
+					  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+					  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+					<configuration>
+					</configuration>
+
+	root-context.xml 의 sqlSessionFactory 빈에 mybatis-config.xml 파일위치를 property로 등록
+		configLocation이라는 property를 등록한다. 
+			<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+				<property name="dataSource" ref="dataSource"/>
+				<property name="configLocation" value="classpath:config/mybatis-config.xml"/>
+			</bean>
+
+	Test 코드 작성
+		소스코드 참고
+
+--------
+mybatis CRUD + log4j 샘플 테이블 테스트
+	샘플 테이블 생성
+		CREATE TABLE sample
+		(
+		  oid  INT AUTO_INCREMENT
+		    PRIMARY KEY,
+		  data VARCHAR(20000) NULL
+		)
+		  COMMENT 'Mybatis연동 CRUD 테스트를 위한 테이블'
+		  ENGINE = InnoDB;
+
+	도메인을 위한 패키지 구성, VO 생성
+		개발시 가장 중요한 용어가 될 만한 명사를 흔히 'domain(도메인)'이라고 표현한다. 예를 들어 쇼핑몰의 경우 '회원, 상품, 배송' 등과 같은 용어가 도메인이라고 할 수 있다.
+
+		도메인이라는 단어는 다른의미로 여러 물리적인 환경으로 분리가 가능한 단위라고 할 수 있다. 예를 들면 회원 DB, 상품 DB를 분리해서 운영할 수 있듯이 도메인은 하난의 온전한 시스템의 단위가 될수 있다.
+
+		VO 클래스 작성
+			package com.spring.scrapper.domain.mybatistest;
+
+			public class TestMybatisVO {
+				private int oid;
+				private String data;
+			}
+
+		getter/setter 생성
+			eclispe 의 refactor 기능을 이용해 생성한다.
+
+	DAO 인터페이스 작성, implements 
+		DAO 인터페이스 작성
+			src/main/java/com/spring/scrapper/sample 패키지를 만들고
+			TestMybatisDAO.java라는 이름으로 인터페이스를 TestMybatisDAOImpl.java라는 이름으로 클래스를 만든다.
+			여기서는 간단히 CRUD를 테스트하기 위한 목적이므로 아래의 정말 간단한 코드만을 추가한다.
+				package com.spring.scrapper.sample;
+
+				public interface TestMybatisDAO {
+					public String selectAllData();
+				}
+
+		implements
+			TestMybatisDAOImpl.java는 TestMybatisDAO 인터페이스를 implements 하도록 구현한다.
+				package com.spring.scrapper.sample;
+
+				public class TestMybatisDAOImpl implements TestMybatisDAO{
+
+					@Override
+					public String selectAllData() {
+						return "";
+					}
+					
+				}
+
+	Mapper xml 작성
+		src/main/resources/에 sql 디렉터리 생성
+		src/main/resources/sql 디렉터리 밑에 sample.xml 생성
+		sample.xml에는 아래의 내용을 적는다.
+
+			<?xml version="1.0" encoding="UTF-8"?>
+			<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+			  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+			<mapper namespace="com.spring.scrapper.sample">
+				<!-- <resultMap type="#modelname" id="YourResultSet"> <id property="param1" 
+					column="columnname1" /> <result property="param2" column="columnname2" /> 
+					<result property="param3" column="columnname3" /> </resultMap> -->
+
+				<select id="selectAllData" resultType="com.spring.scrapper.domain.sample.SampleMybatisVO">
+					SELECT * FROM sample;
+				</select>
+			</mapper>
+
+	mybatis-spring이 mapper xml을 인식하도록 연동과정
+		root-context.xml에 아래와 같이 mapperLocations 라는 property를 sqlSessionFactory 라는 id로 추가한 bean의 내부에 추가한다.
+
+			<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+				<property name="dataSource" ref="dataSource"/>
+				<property name="configLocation" value="classpath:config/mybatis-config.xml"/>
+				<property name="mapperLocations" value="classpath:sql/**/*.xml"/>
+			</bean>			
+
+	SqlSessionTemplate 설정
+		Mybatis에서 DAO를 이용할 때 SqlSessionTemplate 를 이용해 DAO를 구현한다. 따라서 SqlSessionTemplate 클래스에 대한 설정과정부터 시작해야한다.
+
+		mybatis-spring의 SqlSessionTemplate 클래스
+			DAO에서 가장 번거로운 작업인 데이터베이스와의 연결 수립, 연결 해제 등의 작업을 mybatis-spring 라이브러리에서는 SqlSessionTemplate라는 클래스로 제공한다. 따러서 이를 통해 개발자들이 직접 연결을 맺고, 종료하는 작업을 줄일 수 있다.
+
+			mybatis-spring에서 제공하는 SqlSessionTemplate 클래스는 Mybatis의 SqlSession 인터페이스를 구현한 클래스이고, 기본적인 트랜잭션의 관리, 쓰레드 처리의 안정성 등을 보장하고, 데이터베이스의 연결/종료를 책임진다.
+
+			SqlSessionTemplate은 SqlSessionFactory를 생성자로 주입해서 설정한다.
+
+		root-context.xml 파일 수정 
+		root-context.xml 에 아래의 내용을 입력한다.
+			<!-- id를 sqlSessionTemplate로 설정할 경우 어떻게 되는지 확인해볼 것  -->
+			<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+				<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
+			</bean>
+
+	스프링에 빈으로 등록 (root-context.xml의 comnponent-scan에 등록)
+		SampleMybatisDAOImpl.java의 코드 내부에 @Repository 어노테이션을 설정했더라도 스프링에서 해당 패키지를 스캔하지 못하면 제대로 스피링의 빈으로 등록되지 못한다. root-context.xml에 context:component-scan 을 등록
+			<context:component-scan base-package="com.spring.scrapper"></context:component-scan>
+
+	테스트 코드 작성
+		MybatisCRUDTest.java 에 아래와 같이 코드 작성
+			package com.spring.scrapper.mybatis;
+
+			import java.util.List;
+
+			import javax.inject.Inject;
+
+			import org.junit.Test;
+			import org.junit.runner.RunWith;
+			import org.springframework.test.context.ContextConfiguration;
+			import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+			import com.spring.scrapper.domain.sample.SampleMybatisVO;
+			import com.spring.scrapper.sample.SampleMybatisDAO;
+
+			@RunWith(SpringJUnit4ClassRunner.class)
+			@ContextConfiguration(
+					locations={"file:src/main/webapp/WEB-INF/spring/root-context.xml"})
+			public class MybatisCRUDTest {
+				
+				@Inject
+				private SampleMybatisDAO sampleDAO;
+				
+				@Test
+				public void testSelectList() throws Exception{
+					List<SampleMybatisVO> sampleList = sampleDAO.selectAllData();
+					System.out.println("COUNT :: " + sampleList.size());
+				}
+			}
+--------
+mybatis, spring-mybatis, log4jdbc 연동
+	mvnrepository 에서 log4jdbc-log4j2를 검색해서 pom.xml에 반영한다.
+	ex)
+		<!-- https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4.1 -->
+		<dependency>
+		    <groupId>org.bgee.log4jdbc-log4j2</groupId>
+		    <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
+		    <version>1.16</version>
+		</dependency>
+
+
+	root-context.xml 수정
+		id가 dataClassName인 bean의 property중 아래의 것들을 수정한다.
+			driverClassName 인 property의 value는 net.sf.log4jdbc.sql.jdbcapi.DriverSpy 로 수정하고
+			url인 property의 value는 jdbc:log4jdbc:mariadb://localhost:3306/scrapper 로 수정한다.
+
+	log4jdbc-log4j2가 제대로 동작하기 위한 별도의 로그관련 설정 파일 생성
+		/src/main/resources 디렉터리에 'log4jdbc.log4j2.properties' 파일과 'logback.xml' 파일을 추가한다.
+
+		log4jdbc.log4j2.properties 파일 내용 (전체)
+			log4jdbc.spylogdelegator.name=net.sf.log4jdbc.log.slf4j.Slf4jSpyLogDelegator
+
+		logback.xml 파일 내용 (전체)
+			<?xml version="1.0" encoding="UTF-8"?>
+			<configuration>
+				<include resource="org/springframework/boot/logging/logback/base.xml"/>
+				
+				<!-- log4jdbc-log4j2 -->
+				<logger name="jdbc.sqlonly" level="DEBUG"/>
+				<logger name="jdbc.sqltiming" level="INFO"/>
+				<logger name="jdbc.audit" level="WARN"/>
+				<logger name="jdbc.resultset" level="ERROR"/>
+				<logger name="jdbc.resultsettable" level="ERROR"/>
+				<logger name="jdbc.connection" level="INFO"/>
+				
+			</configuration>
+
+--------
+CommonDAO 클래스 생성
+
+--------
+WAS 없이 컨트롤러 테스트
+	스프링 MVC에서는 spring-test 모듈을 통해서 WAS를 구동하지 않고도 컨트롤러를 테스트하는 작업이 가능하다. 
+	스프링 3.2 부터는 junit만을 이용해서 스프링 MVC에서 작성도니 컨트롤러를 테스트 할 수 있는데, WAS에서 테스트 해보는 것이 어려울 경우 유용하게 사용될 수 있다.
+	
+	pom.xml에 명시된 서블릿 버전 업그레이드
+		스프링 MVC를 테스트 하려면 pom.xml의 javax.servlet 라이브러리의 버전을 변경해야 올바르게 수행할 수 있다.
+		컨트롤러의 테스트 코드 작성은 test디렉터리에서 작업한다. WAS를 실행하지 않고 컨트롤러를 테스트하려면 pom.xml의 servlet버전을 높여줘야 한다.
+
+		예제코드
+			<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+			<dependency>
+			    <groupId>javax.servlet</groupId>
+			    <artifactId>javax.servlet-api</artifactId>
+			    <version>4.0.1</version>
+			    <scope>provided</scope>
+			</dependency>
+
+	테스트 코드 작성 (120page 참고)
+		SampleControllerTest
+
+
+--------
+JSON 데이터 생성하는 경우를 위한 설정
+	JSON 페이지를 위한 pom.xml 수정
+		mvn repository 에서  jackson-databind 검색
+			<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+			<dependency>
+			    <groupId>com.fasterxml.jackson.core</groupId>
+			    <artifactId>jackson-databind</artifactId>
+			    <version>2.9.5</version>
+			</dependency>
+
+	코드 
+		xxxx.xxxx.XXXController.java
+			...
+			...
+			@RequestMapping("/doJSON")
+			public @ResponseBody ProductVO doJSON(){
+				ProductVO vo = new ProductVO("샘플", 4000);
+				return vo;
+			}
+
+	참고 ) 
+		@ResponseBody 어노테이션
+			요청(request) 문자열이 그대로 파라미터로 전달된다.
+
+-------
+login.jsp 작성
+loginPost.jsp 작성
+-------
+
+
+
