@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.scrapper.jasper">
+	<select id="selectAllFromBook" parameterType="java.util.HashMap" resultType="com.spring.scrapper.jasper.domain.BookVO">
+		SELECT 	* 
+		FROM	Book
+	</select>
+	
+	<insert id="insertIntoBook" parameterType="com.spring.scrapper.jasper.domain.BookVO">
+		INSERT INTO Book(
+			bookName, authorId, authorName, price 
+		)
+		VALUES(
+			#{bookName}, #{authorId}, #{authorName}, #{price}
+		)
+	</insert>
+</mapper>
