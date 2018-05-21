@@ -2,6 +2,7 @@ package com.spring.scrapper.jasper;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,7 +63,9 @@ public class JasperReportController {
 			HttpServletRequest request,
 			HttpServletResponse response) throws JRException, IOException, NamingException{
 		
-		Connection conn = sqlSession.getConnection();
+//		Connection conn = sqlSession.getConnection();
+		
+		Connection conn = null;
 //		String reportType = formVO.getReportFormat();
 //		String authorName = formVO.getAuthorName();
 		String reportType = request.getParameter("reportType");
@@ -71,17 +74,20 @@ public class JasperReportController {
 		
 		Map<String, Object> parameterMap = new HashMap<>();
 		parameterMap.put("authorName", authorName);
+		parameterMap.put("reportType", reportType);
 		
 		//1) getCompiledFile(reportFileName, request) 
 		try {
 			JasperReport jasperReport = jasperService.compileFile(fileName, request);
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/scrapper?useSSL=false&serverTimezone=UTC","scrapper","1111");
 			//2) JasperPrint (-> Html or PDF)
 			if("HTML".equalsIgnoreCase(reportType)){
-				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameterMap, conn);
+				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameterMap, conn1);
 				jasperService.generateReportToHtml(jasperPrint, request, response);
 			}
 			else if("PDF".equalsIgnoreCase(reportType)){
-				jasperService.generateReportToPDF(response, parameterMap, jasperReport, conn);
+				jasperService.generateReportToPDF(response, parameterMap, jasperReport, conn1);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -7,7 +7,7 @@
 	<parameter name="noy" class="java.lang.Integer"/>
 	<parameter name="authorName" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[SELECT bookId, bookName, authorId, authorName, price FROM Book WHERE authorName LIKE '%${authorName}%']]>
+		<![CDATA[SELECT bookId, bookName, authorId, authorName, price FROM Book]]>
 	</queryString>
 	<field name="bookId" class="java.lang.Integer"/>
 	<field name="bookName" class="java.lang.String"/>
