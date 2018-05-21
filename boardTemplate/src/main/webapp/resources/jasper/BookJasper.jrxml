@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="StockReport" pageWidth="500" pageHeight="600" columnWidth="450" leftMargin="5" rightMargin="5" topMargin="10" bottomMargin="1" uuid="09080efa-c254-46f7-8c3d-fc049519dd40">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="Arial" isDefault="true" fontName="Arial" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+	<parameter name="Title" class="java.lang.String"/>
+	<parameter name="noy" class="java.lang.Integer"/>
+	<parameter name="authorName" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT bookId, bookName, authorId, authorName, price FROM Book WHERE authorName LIKE '%${authorName}%']]>
+	</queryString>
+	<field name="bookId" class="java.lang.Integer"/>
+	<field name="bookName" class="java.lang.String"/>
+	<field name="authorId" class="java.lang.Integer"/>
+	<field name="authorName" class="java.lang.String"/>
+	<title>
+		<band height="50" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement style="Arial" x="0" y="5" width="490" height="30" uuid="5bbf4f26-a761-4dbf-b724-9dfd63bb44d1"/>
+				<textElement textAlignment="Center">
+					<font size="22"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{authorName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Arial" mode="Opaque" x="0" y="5" width="490" height="15" forecolor="#FFFFFF" backcolor="#777765" uuid="5ff90061-56b3-4a19-b3a2-4ac8786461bf"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA["The books which is written by " + String.valueOf($P{authorName})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement style="Arial" mode="Opaque" x="0" y="4" width="100" height="15" backcolor="#CBB453" uuid="76275b38-29a9-4234-99f9-436bdbcb6cd4"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[ bookId ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Arial" positionType="Float" mode="Opaque" x="100" y="4" width="170" height="15" backcolor="#CBB453" uuid="186e07cb-5ced-4625-ad3b-32da2309c193"/>
+				<text><![CDATA[ bookName ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Arial" positionType="Float" mode="Opaque" x="270" y="4" width="100" height="15" backcolor="#CBB453" uuid="3ee335f0-3dab-4efa-92ec-c8429cd57936"/>
+				<text><![CDATA[ authorId ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Arial" positionType="Float" mode="Opaque" x="370" y="4" width="120" height="15" backcolor="#CBB453" uuid="765dc21d-3244-4692-8a0a-7557a76003eb"/>
+				<text><![CDATA[ authorName ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="4" width="100" height="15" uuid="ecacfbf9-16d1-4e9c-8053-93722f3307f3"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$F{bookId}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="100" y="4" width="170" height="15" uuid="a11108f4-6a4f-4ffb-88c7-5f2250d132e7"/>
+				<textFieldExpression><![CDATA[$F{bookName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="270" y="4" width="100" height="15" uuid="b00d8a42-d5b6-4ccf-a1c3-61613796dd72"/>
+				<textFieldExpression><![CDATA[$F{authorId}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="370" y="4" width="100" height="15" uuid="dda73911-7413-42d2-9192-e28fc502b247"/>
+				<textFieldExpression><![CDATA[$F{authorName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="40" splitType="Stretch">
+			<textField>
+				<reportElement x="200" y="20" width="85" height="15" uuid="a8f247fd-b352-4f02-95c6-ab21e9bc2cdd"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="285" y="20" width="75" height="15" uuid="1e09d285-d503-460a-884e-8fb42abce512"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" of " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="35" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Arial" x="175" y="20" width="165" height="15" uuid="195d5b60-1abf-4e99-9658-590fadca916a"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA["Total Number of Employees " + String.valueOf($V{REPORT_COUNT})]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
