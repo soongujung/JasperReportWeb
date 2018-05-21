@@ -39,5 +39,4 @@
 			<beans:ref bean="authInterceptor"/>
 		</interceptor>
 	</interceptors>
-	
 </beans:beans>
