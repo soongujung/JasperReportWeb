@@ -1,12 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>ÀúÀÚ °Ë»ö</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>ì €ì ê²€ìƒ‰</title>
 </head>
 
 	<!--
@@ -15,13 +13,13 @@
 	-->
 <body>
 	<h2>Spring MVC JASPER Report Example</h2>
-	<h3>Ã¥ °Ë»ö (Jasper Report)</h3>
+	<h3>ì±… ê²€ìƒ‰ (Jasper Report)</h3>
 	
 	<form method="POST" action="/scrapper/jasper/generate">
 		<table width="350px" border="1">
 			<tr>
 				<td>
-					ÀÛ°¡ ÀÌ¸§ : <input type="text" name="authorName">
+					ì‘ê°€ ì´ë¦„ : <input type="text" name="authorName">
 				</td>
 				<td>
 					<select name="reportType">
@@ -31,7 +29,7 @@
 					</select>
 				</td>
 				<td colspan="2">
-					<input type="submit" value="°Ë»ö">
+					<input type="submit" value="ê²€ìƒ‰">
 				</td>
 			</tr>
 		</table>

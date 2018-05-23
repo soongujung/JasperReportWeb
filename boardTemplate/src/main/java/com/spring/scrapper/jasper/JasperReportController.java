@@ -47,9 +47,6 @@ public class JasperReportController {
 	}
 	
 	// 그냥 심플하게 DB에 있는 데이터들의 값들을 리스트로 보고서에 출력하는걸로.
-	////////////////////////////////////////////////
-	// ModelAndView 구조로 변경할 것
-	////////////////////////////////////////////////
 	@RequestMapping(value="/types", method=RequestMethod.GET)
 	public String getType(JasperBookInputFormVO vo, ModelAndView mav){
 		return "jasper/types";
