@@ -1,4 +1,4 @@
-JasperReports API 
+JasperReports API
 http://jasperreports.sourceforge.net/api/
 
 
@@ -6,11 +6,19 @@ JRXlsExporter
 http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsExporter.html#workbook
     createSheet(CutsInfo xCuts, JRXlsAbstractExporter.SheetInfo sheetInfo)
 
-
     exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
     		exporter.setExporterOutput(new SimpleHtmlExporterOutput(response.getWriter()));
 
 
+JasperSoft community, Resources
+1) index
+https://community.jaspersoft.com/project/jasperreports-library/resources
+
+2) Getting Started
+https://community.jaspersoft.com/wiki/jasperreports-library-first-steps
+
+3) JasperReports Library - Tutorial
+https://community.jaspersoft.com/wiki/jasperreports-library-tutorial
 
 -------------------------------------------------------------
 JasperReports - Advanced Excel Features (version 6.5.1)
