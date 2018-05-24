@@ -15,5 +15,6 @@ public interface JasperReportService {
 	public JasperReport compileFile(String fileName, HttpServletRequest request) throws Exception;
 	public void generateReportToHtml(JasperPrint jasperPrint, HttpServletRequest request, HttpServletResponse response) throws IOException, JRException;
 	public void generateReportToPDF(HttpServletResponse response, Map<String, Object> parameterMap, JasperReport jasperReport, Connection conn) throws Exception;
+	public HttpServletResponse generateReportToPDF(HttpServletResponse response, Map<String, Object> parameterMap, JasperReport jasperReport, Connection conn, String opt) throws Exception;
 //	public void generateReprotToPDFHtml(JasperPrint jasperPrint, Map<String,Object> parameterMap, HttpServletRequest request, HttpServletResponse response)
 }

@@ -73,4 +73,21 @@ public class JasperReportServiceImpl implements JasperReportService{
 		outputStream.close();
 	}
 
+	@Override
+	public HttpServletResponse generateReportToPDF(HttpServletResponse response, Map<String, Object> parameterMap,
+			JasperReport jasperReport, Connection conn, String opt) throws Exception {
+		byte [] binary = null;
+		binary = JasperRunManager.runReportToPdf(jasperReport, parameterMap, conn);
+		response.reset();
+		response.resetBuffer();
+		response.setContentType("application/pdf");
+		response.setContentLength(binary.length);
+		response.setCharacterEncoding("UTF-8");
+		ServletOutputStream outputStream = response.getOutputStream();
+		outputStream.write(binary, 0, binary.length);
+		outputStream.flush();
+		outputStream.close();
+		return response;
+	}
+
 }

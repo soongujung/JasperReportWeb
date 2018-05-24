@@ -53,6 +53,11 @@ public class JasperReportController {
 		return "jasper/types";
 	}
 	
+	@RequestMapping(value="/iframe", method=RequestMethod.GET)
+	public String getTypeIframe(JasperBookInputFormVO vo){
+		return "jasper/iframe";
+	}
+	
 //	@RequestMapping(value="/report", method=RequestMethod.GET)
 	@RequestMapping(value="/generate", method=RequestMethod.POST)
 	public String viewReport(
@@ -94,5 +99,45 @@ public class JasperReportController {
 		
 //		return "jasper/report";
 		return null;
+	}
+	
+	@RequestMapping(value="/generate", method=RequestMethod.GET)
+	public void viewIntoIframe(
+			HttpServletRequest request,
+			HttpServletResponse response) throws JRException, IOException, NamingException{
+		String reportType = request.getParameter("reportType");
+		String authorName = request.getParameter("authorName");
+		String fileName = "BookJasper";
+		
+		Map<String, Object> parameterMap = new HashMap<>();
+		parameterMap.put("authorName", authorName);
+		parameterMap.put("reportType", reportType);
+		
+		//1) getCompiledFile(reportFileName, request) 
+		try {
+			JasperReport jasperReport = jasperService.compileFile(fileName, request);
+			JdbcDataAdapterImpl jasperJdbc = new JdbcDataAdapterImpl();
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/scrapper?useSSL=false&serverTimezone=UTC","scrapper","1111");
+			//2) JasperPrint (-> Html or PDF)
+			if("HTML".equalsIgnoreCase(reportType)){
+				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameterMap, conn1);
+				jasperService.generateReportToHtml(jasperPrint, request, response);
+			}
+			else if("PDF".equalsIgnoreCase(reportType)){
+				response = jasperService.generateReportToPDF(response, parameterMap, jasperReport, conn1, "");
+			}
+			else{
+				System.out.println("hello...");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@RequestMapping(value="/viewReport", method=RequestMethod.GET)
+	public String getReportPage(){
+		return "jasper/iframe_jasper";
 	}
 }
