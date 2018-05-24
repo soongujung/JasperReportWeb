@@ -1,0 +1,49 @@
+JasperReports API 
+http://jasperreports.sourceforge.net/api/
+
+
+JRXlsExporter
+http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsExporter.html#workbook
+    createSheet(CutsInfo xCuts, JRXlsAbstractExporter.SheetInfo sheetInfo)
+
+
+    exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrintList));
+    		exporter.setExporterOutput(new SimpleHtmlExporterOutput(response.getWriter()));
+
+
+
+-------------------------------------------------------------
+JasperReports - Advanced Excel Features (version 6.5.1)
+http://jasperreports.sourceforge.net/sample.reference/xlsfeatures/#xlsfeatures
+
+Download All Sample Source Files
+http://sourceforge.net/projects/jasperreports/files/jasperreports/JasperReports%206.5.1/jasperreports-6.5.1-project.zip/download
+
+Browse Sample Source Files on Git
+http://sourceforge.net/p/jasperreports/code/ci/jr-6-5-0/tree/jasperreports/demo/samples/xlsfeatures/
+
+JRXlsExporter
+http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/export/JRXlsExporter.html
+
+ExcelDataAdapterImpl
+http://jasperreports.sourceforge.net/api/net/sf/jasperreports/data/excel/ExcelDataAdapterImpl.html
+
+ExcelDataAdapterService
+http://jasperreports.sourceforge.net/api/net/sf/jasperreports/data/excel/ExcelDataAdapterService.html
+
+ExcelDataSource
+http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/data/ExcelDataSource.html
+
+Tips for exporting to Excel
+https://community.jaspersoft.com/wiki/tips-exporting-excel
+
+
+
+------------------------------------------------------------
+PDF 출력
+------------------------------------------------------------
+JasperSoft 공식 레퍼런스
+http://jasperreports.sourceforge.net/sample.reference/pdfencrypt/index.html
+
+JasperRunManager
+http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/JasperRunManager.html
