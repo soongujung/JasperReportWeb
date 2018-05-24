@@ -89,5 +89,9 @@ public class JasperReportServiceImpl implements JasperReportService{
 		outputStream.close();
 		return response;
 	}
-
+	
+	public void generateReportToExcel(HttpServletResponse response, Map<String, Object> parameterMap, 
+			JasperReport jasperReport, Connection conn) throws Exception {
+		
+	}
 }

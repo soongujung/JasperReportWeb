@@ -43,10 +43,27 @@
 			<export key="net.sf.jasperreports.html">'DejaVu Sans Mono', 'Courier New', Courier, monospace</export>
 		</exportFonts>
 	</fontFamily>
+	
+	<fontFamily name="Noto Sans">
+		<normal>net/sf/jasperreports/fonts/NotoSans/NotoSans-Regular.ttf</normal>
+		<bold>net/sf/jasperreports/fonts/NotoSans/NotoSans-Bold.ttf</bold>
+		<italic>net/sf/jasperreports/fonts/NotoSans/NotoSans-Italic.ttf</italic>
+		<boldItalic>net/sf/jasperreports/fonts/NotoSans/NotoSans-BoldItalic.ttf</boldItalic>
+		<pdfEncoding>Identity-H</pdfEncoding>
+		<pdfEmbedded>true</pdfEmbedded>
+		<exportFonts>
+			<export key="net.sf.jasperreports.html">'NotoSans', 'Courier New', Courier, monospace, Dotum</export>
+		</exportFonts>
+	</fontFamily>
 
 	<!--
 		Mapping Java logical fonts, for the sake of HTML export only.
 	-->
+	<fontFamily name="NotoSans">
+		<exportFonts>
+			<export key="net.sf.jasperreports.html">'NotoSans', 'Courier New', Courier, monospace, 'Dotum'</export>
+		</exportFonts>
+	</fontFamily>
 	
 	<fontFamily name="SansSerif">
 		<exportFonts>

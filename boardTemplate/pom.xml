@@ -232,6 +232,7 @@
 		</dependency>
 		
 		<!-- 6) jasperreports javaflow -->
+		<!-- 
 		<dependency>
 			<groupId>com.jasperreports</groupId>
 			<artifactId>jasper-javaflow</artifactId>
@@ -239,7 +240,8 @@
 			<scope>system</scope>
 			<systemPath>${project.lib.path}/jasperreports-javaflow-6.5.1.jar</systemPath>
 		</dependency>
-		
+		 -->
+		 
 		<!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
 		<dependency>
 		    <groupId>commons-beanutils</groupId>
