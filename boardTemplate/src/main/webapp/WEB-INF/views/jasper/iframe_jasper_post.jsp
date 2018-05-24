@@ -6,17 +6,17 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title> Jasper 샘플 기능 목차 </title>
+	<title> Jasper Report 페이지 </title>
 </head>
 <body>
 <div id="header">
-	<h1> Jasper 샘플 프로젝트 목차  </h1>
+	<h1> ${jasperBookInputFormDto.reportType} 샘플 페이지 </h1>
 </div>
-<div>
-	<ul>
-		<li><a href="http://localhost:8080/scrapper/jasper/types"><span>Type(PDF,HTML)별 출력 테스트 페이지</span></a></li>
-		<li><a href="http://localhost:8080/scrapper/jasper/iframe_menu"><span>IFrame Sample 메인 페이지 </span></a></li>
-	</ul>
+
+<div id="pdf_section">
+	<iframe src="http://localhost:8080/scrapper/jasper/generate?authorName=${jasperBookInputFormDto.authorName}&reportType=${jasperBookInputFormDto.reportType}" height="500px" width="1000px">
+		<p>브라우저가 iframe을 지원하지 않습니다...</p>
+	</iframe>
 </div>
 </body>
 </html>

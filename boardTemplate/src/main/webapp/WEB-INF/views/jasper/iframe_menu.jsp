@@ -10,7 +10,7 @@
 	<h2>Spring MVC JASPER Report Example</h2>
 	<h3>책 검색 (Jasper Report)</h3>
 	
-	<form method="POST" action="/scrapper/jasper/generate">
+	<form method="POST" action="/scrapper/jasper/viewReport">
 		<table width="350px" border="1">
 			<tr>
 				<td>

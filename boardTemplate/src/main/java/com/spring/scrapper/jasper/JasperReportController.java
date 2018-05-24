@@ -17,10 +17,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.ui.Model;
 import com.spring.scrapper.jasper.domain.JasperBookInputFormVO;
+import com.spring.scrapper.jasper.domain.dto.JasperBookInputFormDTO;
 
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl;
 import net.sf.jasperreports.engine.JRException;
@@ -53,9 +55,14 @@ public class JasperReportController {
 		return "jasper/types";
 	}
 	
-	@RequestMapping(value="/iframe", method=RequestMethod.GET)
+	@RequestMapping(value="/list", method=RequestMethod.GET)
+	public String getMenuList(){
+		return "jasper/list";
+	}
+	
+	@RequestMapping(value="/iframe_menu", method=RequestMethod.GET)
 	public String getTypeIframe(JasperBookInputFormVO vo){
-		return "jasper/iframe";
+		return "jasper/iframe_menu";
 	}
 	
 //	@RequestMapping(value="/report", method=RequestMethod.GET)
@@ -139,5 +146,11 @@ public class JasperReportController {
 	@RequestMapping(value="/viewReport", method=RequestMethod.GET)
 	public String getReportPage(){
 		return "jasper/iframe_jasper";
+	}
+	
+	@RequestMapping(value="/viewReport", method=RequestMethod.POST)
+	public String getReportPagePost(JasperBookInputFormDTO jasperBookInputFormDto, Model model){
+		model.addAttribute("jasperBookInputFormDto", jasperBookInputFormDto);
+		return "jasper/iframe_jasper_post";
 	}
 }
