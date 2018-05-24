@@ -66,6 +66,7 @@ public class JasperReportServiceImpl implements JasperReportService{
 		response.resetBuffer();
 		response.setContentType("application/pdf");
 		response.setContentLength(binary.length);
+		response.setCharacterEncoding("UTF-8");
 		ServletOutputStream outputStream = response.getOutputStream();
 		outputStream.write(binary, 0, binary.length);
 		outputStream.flush();

@@ -32,9 +32,9 @@
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
 	</bean>
 	
-	<!-- 	
+	<!-- 
 	<bean id="viewMappings" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
-		<property name="basename" value="jasperreport.properties"/>
+		<property name="basename" value="classpath:config/jasperreport.properties"/>
 		<property name="order" value="0"/>
 	</bean>
 	 --> 

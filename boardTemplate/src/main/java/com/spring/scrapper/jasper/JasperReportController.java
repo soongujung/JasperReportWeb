@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.ui.Model;
 import com.spring.scrapper.jasper.domain.JasperBookInputFormVO;
 
+import net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -76,6 +77,7 @@ public class JasperReportController {
 		//1) getCompiledFile(reportFileName, request) 
 		try {
 			JasperReport jasperReport = jasperService.compileFile(fileName, request);
+			JdbcDataAdapterImpl jasperJdbc = new JdbcDataAdapterImpl();
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/scrapper?useSSL=false&serverTimezone=UTC","scrapper","1111");
 			//2) JasperPrint (-> Html or PDF)
