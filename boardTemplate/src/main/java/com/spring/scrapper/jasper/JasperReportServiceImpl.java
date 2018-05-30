@@ -20,6 +20,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.export.HtmlExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
@@ -89,9 +90,13 @@ public class JasperReportServiceImpl implements JasperReportService{
 		outputStream.close();
 		return response;
 	}
-	
-	public void generateReportToExcel(HttpServletResponse response, Map<String, Object> parameterMap, 
-			JasperReport jasperReport, Connection conn) throws Exception {
-		
+
+	@Override
+	public void generateReportToXls(HttpServletResponse response, Map<String, Object> parameterMap,
+			JasperPrint jasperPrint, Connection conn) throws Exception {
+		JRXlsExporter exporter = new JRXlsExporter();
+		List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
+		jasperPrintList.add(jasperPrint);
+		exporter.setExporterInput( SimpleExporterInput.getInstance(jasperPrintList) );
 	}
 }

@@ -29,6 +29,11 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 
 @Controller
 @SessionAttributes("jasperBookVO")
@@ -45,7 +50,8 @@ public class JasperReportController {
 	public Map<String, String> getJasperBookFormats(){
 		Map<String, String> parameterMap = new HashMap<>();
 		parameterMap.put("PDF", "pdf");
-		parameterMap.put("Html", "html");
+		parameterMap.put("HTML", "html");
+		parameterMap.put("XLS", "xls");
 		return parameterMap;
 	}
 	
@@ -124,12 +130,27 @@ public class JasperReportController {
 		try {
 			JasperReport jasperReport = jasperService.compileFile(fileName, request);
 			JdbcDataAdapterImpl jasperJdbc = new JdbcDataAdapterImpl();
-			Class.forName("com.mysql.jdbc.Driver");
+//			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/scrapper?useSSL=false&serverTimezone=UTC","scrapper","1111");
 			//2) JasperPrint (-> Html or PDF)
 			if("HTML".equalsIgnoreCase(reportType)){
 				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameterMap, conn1);
 				jasperService.generateReportToHtml(jasperPrint, request, response);
+			}
+			else if("XLS".equalsIgnoreCase(reportType)){
+				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameterMap, conn1);
+				JRXlsExporter exporter = new JRXlsExporter();
+				String path = request.getSession().getServletContext().getRealPath("/resources/jasper/"+ fileName);
+				String xlsPath = path + ".xls";
+				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(xlsPath));
+				SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
+				configuration.setOnePagePerSheet(true);
+				configuration.setDetectCellType(true);
+				configuration.setCollapseRowSpan(false);
+				exporter.setConfiguration(configuration);
+				exporter.exportReport();
 			}
 			else if("PDF".equalsIgnoreCase(reportType)){
 				response = jasperService.generateReportToPDF(response, parameterMap, jasperReport, conn1, "");

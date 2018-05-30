@@ -205,6 +205,7 @@
 		</dependency>
 		
 		<!-- 3) jasperreports chart theme -->
+		<!-- 
 		<dependency>
 			<groupId>com.jasperreports</groupId>
 			<artifactId>jasper-chart-themes</artifactId>
@@ -212,14 +213,15 @@
 			<scope>system</scope>
 			<systemPath>${project.lib.path}/jasperreports-chart-themes-6.5.1.jar</systemPath>
 		</dependency>
+		 -->
 		
 		<!-- 4) jasperreports fonts -->
 		<dependency>
 			<groupId>com.jasperreports</groupId>
 			<artifactId>jasper-fonts</artifactId>
-			<version>6.5.1</version>
+			<version>6.1.1</version>
 			<scope>system</scope>
-			<systemPath>${project.lib.path}/jasperreports-fonts-6.5.1.jar</systemPath>
+			<systemPath>${project.lib.path}/jasperreports-fonts-6.1.1.jar</systemPath>
 		</dependency>
 		
 		<!-- 5) jasperreports functions -->
@@ -239,6 +241,34 @@
 			<version>6.5.1</version>
 			<scope>system</scope>
 			<systemPath>${project.lib.path}/jasperreports-javaflow-6.5.1.jar</systemPath>
+		</dependency>
+		 -->
+		<!-- 6) poi -->
+		<dependency>
+			<groupId>com.jasperreports</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.17</version>
+			<scope>system</scope>
+			<systemPath>${project.lib.path}/poi-3.17.jar</systemPath>
+		</dependency> 
+		
+		<!-- 7) jasperreports-metadata -->
+		<dependency>
+			<groupId>com.jasperreports</groupId>
+			<artifactId>jasperreports-metadata</artifactId>
+			<version>6.5.1</version>
+			<scope>system</scope>
+			<systemPath>${project.lib.path}/jasperreports-metadata-6.5.1.jar</systemPath>
+		</dependency>
+		
+		<!-- itext-4.2.1.jar -->
+		<!-- 
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>4.2.1</version>
+			<scope>system</scope>
+			<systemPath>${project.lib.path}/itext-4.2.1.jar</systemPath>
 		</dependency>
 		 -->
 		 
@@ -319,10 +349,18 @@
 		</dependency>
 		
 		<dependency>
+		    <groupId>com.itextpdf</groupId>
+		    <artifactId>itextpdf</artifactId>
+		    <version>5.5.13</version>
+		</dependency>
+		
+		<!-- 
+		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
 			<version>6.5.1</version>
 		</dependency>
+		 -->
 		
 		<!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports-fonts -->
 		<!-- 

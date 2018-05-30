@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BookReport" pageWidth="500" pageHeight="600" whenNoDataType="BlankPage" columnWidth="450" leftMargin="5" rightMargin="5" topMargin="10" bottomMargin="1" whenResourceMissingType="Empty" uuid="09080efa-c254-46f7-8c3d-fc049519dd40">
-	<style name="Noto Sans" isDefault="true" fontName="Noto Sans" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Noto Sans" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+	<style name="DejaVu Sans" isDefault="true" fontName="DejaVu Sans" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="DejaVu Sans" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 	<parameter name="Title" class="java.lang.String"/>
 	<parameter name="noy" class="java.lang.Integer"/>
 	<parameter name="authorName" class="java.lang.String"/>
@@ -15,9 +15,9 @@
 	<title>
 		<band height="50" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement style="Noto Sans" x="0" y="5" width="490" height="30" uuid="5bbf4f26-a761-4dbf-b724-9dfd63bb44d1"/>
+				<reportElement style="DejaVu Sans" x="0" y="5" width="490" height="30" uuid="5bbf4f26-a761-4dbf-b724-9dfd63bb44d1"/>
 				<textElement textAlignment="Center">
-					<font size="22"/>
+					<font size="22" fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{authorName}]]></textFieldExpression>
 			</textField>
@@ -26,7 +26,7 @@
 	<pageHeader>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement style="Noto Sans" mode="Opaque" x="0" y="5" width="490" height="15" forecolor="#FFFFFF" backcolor="#777765" uuid="5ff90061-56b3-4a19-b3a2-4ac8786461bf"/>
+				<reportElement style="DejaVu Sans" mode="Opaque" x="0" y="5" width="490" height="15" forecolor="#FFFFFF" backcolor="#777765" uuid="5ff90061-56b3-4a19-b3a2-4ac8786461bf"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA["The books which is written by " + String.valueOf($P{authorName})]]></textFieldExpression>
 			</textField>
@@ -35,20 +35,20 @@
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement style="Noto Sans" mode="Opaque" x="0" y="4" width="100" height="15" backcolor="#CBB453" uuid="76275b38-29a9-4234-99f9-436bdbcb6cd4"/>
+				<reportElement style="DejaVu Sans" mode="Opaque" x="0" y="4" width="100" height="15" backcolor="#CBB453" uuid="76275b38-29a9-4234-99f9-436bdbcb6cd4"/>
 				<textElement textAlignment="Left"/>
 				<text><![CDATA[ bookId ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Noto Sans" positionType="Float" mode="Opaque" x="100" y="4" width="170" height="15" backcolor="#CBB453" uuid="186e07cb-5ced-4625-ad3b-32da2309c193"/>
+				<reportElement style="DejaVu Sans" positionType="Float" mode="Opaque" x="100" y="4" width="170" height="15" backcolor="#CBB453" uuid="186e07cb-5ced-4625-ad3b-32da2309c193"/>
 				<text><![CDATA[ bookName ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Noto Sans" positionType="Float" mode="Opaque" x="270" y="4" width="100" height="15" backcolor="#CBB453" uuid="3ee335f0-3dab-4efa-92ec-c8429cd57936"/>
+				<reportElement style="DejaVu Sans" positionType="Float" mode="Opaque" x="270" y="4" width="100" height="15" backcolor="#CBB453" uuid="3ee335f0-3dab-4efa-92ec-c8429cd57936"/>
 				<text><![CDATA[ authorId ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Noto Sans" positionType="Float" mode="Opaque" x="370" y="4" width="120" height="15" backcolor="#CBB453" uuid="765dc21d-3244-4692-8a0a-7557a76003eb"/>
+				<reportElement style="DejaVu Sans" positionType="Float" mode="Opaque" x="370" y="4" width="120" height="15" backcolor="#CBB453" uuid="765dc21d-3244-4692-8a0a-7557a76003eb"/>
 				<text><![CDATA[ authorName ]]></text>
 			</staticText>
 		</band>
@@ -91,7 +91,7 @@
 	<summary>
 		<band height="35" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
-				<reportElement style="Noto Sans" x="175" y="20" width="165" height="15" uuid="195d5b60-1abf-4e99-9658-590fadca916a"/>
+				<reportElement style="DejaVu Sans" x="175" y="20" width="165" height="15" uuid="195d5b60-1abf-4e99-9658-590fadca916a"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA["Total Number of BOOKS " + String.valueOf($V{REPORT_COUNT})]]></textFieldExpression>
 			</textField>

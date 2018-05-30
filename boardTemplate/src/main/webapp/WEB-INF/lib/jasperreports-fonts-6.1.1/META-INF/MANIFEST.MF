@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Built-By: TIBCO Software Inc.
+Created-By: Apache Maven 3.3.3
+Build-Jdk: 1.8.0_51
+
+Name: net/sf/jasperreports/fonts/
+Implementation-Title: net.sf.jasperreports.fonts
+Implementation-Version: 6.1.1
+Specification-Vendor: TIBCO Software Inc.
+Specification-Title: JasperReports Library Font Extension
+Specification-Version: 6.1.1
+Implementation-Vendor: TIBCO Software Inc.
+
