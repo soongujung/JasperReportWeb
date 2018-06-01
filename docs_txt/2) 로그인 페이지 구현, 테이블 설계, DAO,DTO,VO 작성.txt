@@ -1,0 +1,438 @@
+2) 로그인 페이지 구현, 테이블 설계, DAO,DTO,VO 작성
+
+------
+테이블 생성, DTO, VO 생성, DAO 로직, 테스트 코드 작성
+
+User 테이블 생성
+	CREATE TABLE User
+	(
+	  userId   VARCHAR(30) NOT NULL
+	    PRIMARY KEY,
+	  email    VARCHAR(50) NOT NULL,
+	  password VARCHAR(30) NOT NULL,
+	  userName VARCHAR(50) NOT NULL,
+	  CONSTRAINT User_userId_uindex
+	  UNIQUE (userId)
+	)
+	  ENGINE = InnoDB;
+
+
+VO, DTO 생성
+	VO, DTO, DAO ??
+		VO
+			데이터베이스의 하나의 객체(테이블, 시퀀스 등)에 대해 매핑되는 하나의 객체
+			DB의 테이블의 각 컬럼에 대응되는 필드를 가지며, getter/setter를 가진 클래스를 생각하면 된다.
+			DAO에서 데이터의 수집을 위해 vo를 사용하는데, DTO와는 유사하지만, VO의 경우는 read only 속성을 가진다.
+
+		DTO
+			로직을 갖지 않은 순수한 데이터 객체, DTO 또한 데이터베이스 내의 임의의 객체(테이블, 시퀀스 등)에 대해 매핑되는 객체
+			DB의 테이블의 각 컬럼에 대응되는 필드를 가지고, getter/setter를 가진 클래스를 생각하면 된다.
+			VO와의 차이점은 DTO는 화면에 데이터를 전달하기 위한 용도이다. 
+				(VO는 DAO에서 데이터를 가져오고자 할때 데이터베이서의 객체에 매핑되기 위한 하나의 덩어리라고 생각하면 된다.)
+			즉, VO와 DTO는 서로 담당하는 계층이 다르다고 생각하면 된다.
+			DTO는 read only는 아니다.
+
+		DAO
+			데이터에 접근하기 위한 객체 (Data Access Object)
+			동적 SQL등을 포함
+
+	UserVO
+		package com.spring.scrapper.domain.users.vo;
+
+		public class UserVO {
+			  private String userId;
+			  private String email;
+			  private String password;
+			  private String userName;
+		}
+
+		위와 같이 클래스를 생성후 Source -> Generate Getters/Setters 를 클릭해 Getter와 Setter를 만들어낸다.	
+		같은 방식으로 toString 메서드도 생성해낸다.
+
+	UserDTO
+		package com.spring.scrapper.domain.users.dto;
+
+		public class UserDTO {
+			private String userId;
+			private String email;
+			private String password;
+			private String userName;
+		}
+
+		위와 같이 클래스를 생성후 Source -> Generate Getters/Setters 를 클릭해 Getter와 Setter를 만들어낸다.
+		같은 방식으로 toString 메서드도 생생한다.
+
+	UserDAO 인터페이스 작성
+		package com.spring.scrapper.user;
+
+		import com.spring.scrapper.domain.user.dto.UserDTO;
+		import com.spring.scrapper.domain.user.vo.UserVO;
+
+		public interface UserDAO {
+			public UserVO selectUserForLogin(UserDTO userDto) throws Exception;
+		}
+
+	UserDAOImpl 클래스 구현
+		package com.spring.scrapper.user;
+
+		import java.util.HashMap;
+		import java.util.Map;
+
+		import org.springframework.stereotype.Repository;
+
+		import com.spring.scrapper.common.CommonDAO;
+		import com.spring.scrapper.domain.user.dto.UserDTO;
+		import com.spring.scrapper.domain.user.vo.UserVO;
+
+		@Repository
+		public class UserDAOImpl extends CommonDAO implements UserDAO{
+
+			@Override
+			public UserVO selectUserForLogin(UserDTO userDto) throws Exception {
+				Map<String, Object> parameterMap = new HashMap<>();
+				parameterMap.put("userId", userDto.getUserId());
+				parameterMap.put("password", userDto.getPassword());
+				return super.getSqlSession().selectOne("com.spring.scrapper.user.selectUserForLogin", parameterMap);
+			}
+			
+		}
+
+	mapper sql 생성 (src/main/resources/sql)
+		user.xml이라는 이름의 xml파일을 src/main/resources/sql 아래에 생성한다.
+
+		user.xml의 내용
+			<?xml version="1.0" encoding="UTF-8"?>
+			<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+			  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+			<mapper namespace="com.spring.scrapper.user">
+				<select id="selectUserForLogin" resultType="com.spring.scrapper.domain.user.vo.UserVO">
+					SELECT * FROM User;
+				</select>
+			</mapper>			
+
+	테스트 코드 작성
+		src/test/java/com/spring/scrapper/user 밑에 UserDAOImplTest.java 생성
+
+		아래의 코드를 입력한다.
+			package com.spring.scrapper.user;
+
+			import java.util.HashMap;
+			import java.util.Map;
+
+			import org.junit.Test;
+			import org.junit.runner.RunWith;
+			import org.springframework.test.context.ContextConfiguration;
+			import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+			import com.spring.scrapper.common.CommonDAO;
+			import com.spring.scrapper.domain.user.dto.UserDTO;
+			import com.spring.scrapper.domain.user.vo.UserVO;
+			import com.spring.scrapper.user.UserDAO;
+
+			@RunWith(SpringJUnit4ClassRunner.class)
+			@ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/spring/root-context.xml"})
+			public class UserDAOImplTest extends CommonDAO implements UserDAO {
+
+				@Override
+				public UserVO selectUserForLogin(UserDTO userDto) throws Exception {
+					Map<String, Object> parameterMap = new HashMap<>();
+					parameterMap.put("userId", userDto.getUserId());
+					parameterMap.put("password", userDto.getPassword());
+					UserVO resultVO = super.getSqlSession().selectOne("com.spring.scrapper.user.selectUserForLogin", parameterMap);
+					return resultVO;
+				}
+				
+				@Test
+				public void testSelectUserForLogin() throws Exception{
+					UserDTO userDto = new UserDTO();
+					userDto.setUserId("Admin");
+					userDto.setPassword("1111");
+					
+					selectUserForLogin(userDto);
+				}
+			}
+
+------
+Controller, Service 로직 작성 (WAS 연동)
+	
+	Controller 작성
+		src/man/java/com/spring/scrapper/user 에 UserController.java 생성
+		아래의 코드를 입력후 저장
+
+			package com.spring.scrapper.user;
+
+			import javax.inject.Inject;
+			import javax.servlet.http.HttpSession;
+
+			import org.springframework.stereotype.Controller;
+			import org.springframework.ui.Model;
+			import org.springframework.web.bind.annotation.ModelAttribute;
+			import org.springframework.web.bind.annotation.RequestMapping;
+			import org.springframework.web.bind.annotation.RequestMethod;
+
+			import com.spring.scrapper.domain.user.dto.UserDTO;
+			import com.spring.scrapper.domain.user.vo.UserVO;
+
+			@Controller
+			@RequestMapping("/user")
+			public class UserController {
+				
+				@Inject
+				private UserService userService;
+				
+				@RequestMapping(value="/login", method=RequestMethod.GET )
+				public void loginGet(@ModelAttribute("dto") UserDTO userDto){
+					
+				}
+				
+				@RequestMapping(value="/loginPost", method=RequestMethod.POST)
+				public void loginPost(UserDTO userDto, HttpSession session, Model model) throws Exception{
+			//		boolean result = userService.login(userDto);
+					UserVO resultVO = userService.login(userDto);
+					
+					if(resultVO == null){
+						return;
+					}
+					
+					model.addAttribute("userVO", resultVO);
+					
+				}
+			}
+
+	Service 인터페이스 작성
+		package com.spring.scrapper.user;
+
+		import com.spring.scrapper.domain.user.dto.UserDTO;
+		import com.spring.scrapper.domain.user.vo.UserVO;
+
+		public interface UserService {
+			public UserVO login(UserDTO userDto) throws Exception;
+		}
+
+
+	ServiceImpl 클래스 작성
+		package com.spring.scrapper.user;
+
+		import javax.inject.Inject;
+
+		import org.springframework.stereotype.Service;
+
+		import com.spring.scrapper.domain.user.dto.UserDTO;
+		import com.spring.scrapper.domain.user.vo.UserVO;
+
+		@Service
+		public class UserServiceImpl implements UserService{
+			
+			@Inject
+			private UserDAO userDAO;
+
+			@Override
+			public UserVO login(UserDTO userDto) throws Exception {
+		//		return userDAO.selectUserForLogin(userDto) != null ? true : false;
+				return userDAO.selectUserForLogin(userDto);
+			}
+
+		}
+
+------
+login.jsp 소스 작성
+	login.jsp를 넣어둘 폴더 생성
+		/src/main/webapp/WEB-INF/views/ 에 user 디렉터리 생성
+			(UserController 클래스에 전역으로 잡힌 RequestMapping이 /user 이므로 /user 디렉터리에 매핑한다.)
+		/src/main/webapp/WEB-INF/views/user 디렉터리 내에 login.jsp 생성
+
+	login.jsp 작성
+		<%@ page language="java" contentType="text/html; charset=UTF-8"
+			pageEncoding="UTF-8"%>
+		<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>LOGIN PAGE</title>
+		<!-- 합쳐지고 최소화된 최신 CSS -->
+		<link rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+		<!-- 부가적인 테마 -->
+		<link rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+		<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+		<script
+			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+		<script type="text/javascript">
+			function sendData() {
+				for (var i = 0; i < document.forms[0].elements.length; i++) {
+					if (document.forms[0].elements[i].value == "") {
+						alert(document.forms[0].elements[i].name + " 를 입력하지 않았습니다. ");
+						document.forms[0].elements[i].focus();
+						return;
+					}
+				}
+				document.forms[0].submit();
+			}
+		</script>
+		</head>
+		<body>
+			<div class="header container" style="width: 600px; padding: 15px;">
+
+			</div>
+			<div class="container" style="width: 600px; padding: 15px;">
+				<h1></h1>
+				<!-- <div class="input-group"> -->
+				<table class="table table-bordered">
+					<thead>
+						<h1>LOGIN</h1>
+					</thead>
+					<tbody>
+						<form action="/user/loginPost" method="post">
+							<tr>
+								<th>id</th>
+								<td>
+									<input type="text" name="userId" value="${userVO.id}" class="form-control" placeholder="username" aria-describedby="basic-addon1"/>
+								</td>
+							</tr>
+							<tr>
+								<th>password</th>
+								<td>
+									<input type="password" name="password" value="${userVO.password}" class="form-control" placeholder="password" aria-describedby="basic-addon1"/>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<span type="submit" class="btn btn-primary pull-right" value="로그인" onclick="sendData()">로그인 </span> <span type="reset" class="btn btn-primary pull-left" value="reset" class="pull-left">reset
+									</span>
+								</td>
+							</tr>
+						</form>
+					</tbody>
+				</table>
+			</div>
+		</body>
+		</html>	
+
+------
+LoginInterceptor 작성, servlet-context.xml 에 Interceptor 반영
+
+	LoginInterceptor.java 작성
+		/src/main/java/com/spring/scrapper/ 아래에 interceptor 패키지를 생성한다.
+
+		/src/main/java/com/spring/scrapper/interceptor 패키지 아래에 LoginInterceptor.java 클래스를 생성하고 아래와 같이 작성한다.
+
+			package com.spring.scrapper.interceptor;
+
+			import javax.servlet.http.HttpServletRequest;
+			import javax.servlet.http.HttpServletResponse;
+			import javax.servlet.http.HttpSession;
+
+			import org.slf4j.Logger;
+			import org.slf4j.LoggerFactory;
+			import org.springframework.ui.ModelMap;
+			import org.springframework.web.servlet.ModelAndView;
+			import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
+			public class LoginInterceptor extends HandlerInterceptorAdapter{
+				
+				private static final String LOGIN = "loginVO";
+				private static final Logger LOGGER = LoggerFactory.getLogger(LoginInterceptor.class);
+				@Override
+				public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+						ModelAndView modelAndView) throws Exception {
+					
+					HttpSession session = request.getSession();
+					ModelMap modelMap = modelAndView.getModelMap();
+					Object userVO = modelMap.get("userVO");
+					
+					if(userVO != null){
+						session.setAttribute(LOGIN, userVO);
+						LOGGER.info("LOGIN SUCCESS ");
+						response.sendRedirect("/scrapper/");
+					}
+					else{
+						LOGGER.info("LOGIN FAIL ");
+					}
+					
+				}
+				
+				@Override
+				public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+						throws Exception {
+					
+					HttpSession session = request.getSession();
+					Object loginVO = session.getAttribute(LOGIN);
+					if(loginVO != null){
+						LOGGER.info("preHandle, clear LOGIN INFORMATION... ");
+						session.removeAttribute(LOGIN);
+					}
+					return true;
+				}
+				
+			}
+
+
+	servlet-context.xml 에 Interceptor 설정 반영 
+		<beans:bean id ="..." class="...."></beans> 에는 LoginInterceptor 클래스를 지정해준다.
+		<interceptors> 내의 <interceptor> 에는 preHendle, postHandle로 가로챌 url을 명시한다.
+
+		servlet-context.xml 에 반영된 소스의 내용은 아래와 같다.
+		(아래의 내용중 <beans:bean id ...> 부터 확인하면 된다.)
+			<?xml version="1.0" encoding="UTF-8"?>
+			<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+				xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xmlns:beans="http://www.springframework.org/schema/beans"
+				xmlns:context="http://www.springframework.org/schema/context"
+				xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+					http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+					http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+				<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+				
+				<!-- Enables the Spring MVC @Controller programming model -->
+				<annotation-driven />
+
+				<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+				<resources mapping="/resources/**" location="/resources/" />
+
+				<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+				<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+					<beans:property name="prefix" value="/WEB-INF/views/" />
+					<beans:property name="suffix" value=".jsp" />
+				</beans:bean>
+				
+				<context:component-scan base-package="com.spring.scrapper" />
+				
+				<beans:bean id="loginInterceptor" class="com.spring.scrapper.interceptor.LoginInterceptor">
+				</beans:bean>
+				
+				<interceptors>
+					<interceptor>
+						<mapping path="/user/loginPost"/>
+						<beans:ref bean="loginInterceptor"/>
+					</interceptor>
+				</interceptors>
+			</beans:beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
