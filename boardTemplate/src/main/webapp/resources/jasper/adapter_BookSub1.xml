@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beanDataAdapter class="net.sf.jasperreports.data.bean.BeanDataAdapterImpl"><name>BookDS_sub</name><factoryClass>com.spring.scrapper.jasper.BookDataSource</factoryClass><methodName>load</methodName><useFieldDescription>false</useFieldDescription></beanDataAdapter>

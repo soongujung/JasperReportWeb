@@ -125,7 +125,11 @@ public class JasperReportController {
 		Map<String, Object> parameterMap = new HashMap<>();
 		parameterMap.put("authorName", authorName);
 		parameterMap.put("reportType", reportType);
-		
+		try {
+			jasperService.generateReportToStream(request, response, parameterMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 //		//1) getCompiledFile(reportFileName, request) 
 //		try {
 //			JasperReport jasperReport = jasperService.compileFile(fileName, request);

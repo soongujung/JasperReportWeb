@@ -7,6 +7,15 @@ public class BookVO {
 	private String 	authorName;
 	private int 	price;
 	
+	public BookVO() {}
+	public BookVO(int bookId, String bookName, int authorId, String authorName, int price) {
+		this.bookId = bookId;
+		this.bookName = bookName;
+		this.authorId = authorId;
+		this.authorName = authorName;
+		this.price = price;
+	}
+	
 	public int getBookId() {
 		return bookId;
 	}

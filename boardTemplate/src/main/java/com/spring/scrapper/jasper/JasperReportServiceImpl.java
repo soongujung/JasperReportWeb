@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Service;
 
+import com.spring.scrapper.jasper.domain.BookVO;
+
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
@@ -24,6 +26,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -109,8 +112,7 @@ public class JasperReportServiceImpl implements JasperReportService{
 	
 
 	@Override
-	public void generateReportToStream(HttpServletRequest request, HttpServletResponse response, Map<String, Object> parameterMap,
-			 Connection conn) throws Exception {
+	public void generateReportToStream(HttpServletRequest request, HttpServletResponse response, Map<String, Object> parameterMap) throws Exception {
 		String reportType = request.getParameter("reportType");
 		String authorName = request.getParameter("authorName");
 //		String fileName = "BookJasper";
@@ -120,17 +122,42 @@ public class JasperReportServiceImpl implements JasperReportService{
 		parameterMap = new HashMap<>();
 		parameterMap.put("authorName", authorName);
 		parameterMap.put("reportType", reportType);
+
+		BookVO vo1 = new BookVO(1, "한국축구의 역사1", 1, "박문성", 1000);
+		BookVO vo2 = new BookVO(2, "한국축구의 역사2", 2, "박지성", 1001);
+		BookVO vo3 = new BookVO(3, "한국축구의 역사3", 3, "서형욱", 1002);
+		BookVO vo4 = new BookVO(4, "한국축구의 역사4", 4, "차범근", 1003);
 		
-//		jasperParameterMap 세팅 구문 작성 (SQL)
+		BookVO vo5 = new BookVO(5, "유럽축구의 역사1", 1, "박문성", 1004);
+		BookVO vo6 = new BookVO(6, "유럽축구의 역사2", 2, "박지성", 1005);
+		BookVO vo7 = new BookVO(7, "유럽축구의 역사3", 3, "서형욱", 1006);
+		BookVO vo8 = new BookVO(8, "유럽축구의 역사4", 4, "차범근", 1007);
+		List<BookVO> bookList = new ArrayList<>();
+		bookList.add(vo1);
+		bookList.add(vo2);
+		bookList.add(vo3);
+		bookList.add(vo4);
 		
+		List<BookVO> bookList2 = new ArrayList<>();
+		bookList2.add(vo5);
+		bookList2.add(vo6);
+		bookList2.add(vo7);
+		bookList2.add(vo8);
 		
 		try {
 			JasperReport jasperReport = compileFile(fileName, request);
 			
 			JasperPrint jasperPrint = null;
 			Map<String, Object> jasperParameterMap = new HashMap<String,Object>();
-			jasperPrint = JasperFillManager.fillReport(jasperReport, jasperParameterMap, new JREmptyDataSource());
+			JRBeanCollectionDataSource dataSource1 = new JRBeanCollectionDataSource(bookList);
+			JRBeanCollectionDataSource dataSource2 = new JRBeanCollectionDataSource(bookList2);
+			jasperParameterMap.put("subReport1", dataSource1);
+			jasperParameterMap.put("subReport2", dataSource2);
 			
+			jasperPrint = JasperFillManager.fillReport(jasperReport, jasperParameterMap, new JREmptyDataSource());
+//			jasperParameterMap 세팅 구문 작성 (SQL)
+			
+						
 			//2) JasperPrint (-> Html or PDF)
 			if("HTML".equalsIgnoreCase(reportType)){
 				generateReportToHtml(jasperPrint, request, response);

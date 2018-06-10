@@ -18,5 +18,5 @@ public interface JasperReportService {
 	public HttpServletResponse generateReportToPDF(HttpServletResponse response, Map<String, Object> parameterMap, JasperReport jasperReport, Connection conn, String opt) throws Exception;
 //	public void generateReprotToPDFHtml(JasperPrint jasperPrint, Map<String,Object> parameterMap, HttpServletRequest request, HttpServletResponse response)
 	public void generateReportToXls(HttpServletResponse response, Map<String, Object> parameterMap, JasperPrint jasperPrint, Connection conn) throws Exception;
-	public void generateReportToStream(HttpServletRequest request, HttpServletResponse response, Map<String, Object> parameterMap, Connection conn) throws Exception;
+	public void generateReportToStream(HttpServletRequest request, HttpServletResponse response, Map<String, Object> parameterMap) throws Exception;
 }
