@@ -3,7 +3,9 @@ package com.spring.scrapper.jasper;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Service;
 
+import net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -25,6 +30,8 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleHtmlReportConfiguration;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 
 @Service
 public class JasperReportServiceImpl implements JasperReportService{
@@ -99,4 +106,79 @@ public class JasperReportServiceImpl implements JasperReportService{
 		jasperPrintList.add(jasperPrint);
 		exporter.setExporterInput( SimpleExporterInput.getInstance(jasperPrintList) );
 	}
+	
+
+	@Override
+	public void generateReportToStream(HttpServletRequest request, HttpServletResponse response, Map<String, Object> parameterMap,
+			 Connection conn) throws Exception {
+		String reportType = request.getParameter("reportType");
+		String authorName = request.getParameter("authorName");
+//		String fileName = "BookJasper";
+		String fileName = "RptPerfDevice";
+
+		
+		parameterMap = new HashMap<>();
+		parameterMap.put("authorName", authorName);
+		parameterMap.put("reportType", reportType);
+		
+//		jasperParameterMap 세팅 구문 작성 (SQL)
+		
+		
+		try {
+			JasperReport jasperReport = compileFile(fileName, request);
+			
+			JasperPrint jasperPrint = null;
+			Map<String, Object> jasperParameterMap = new HashMap<String,Object>();
+			jasperPrint = JasperFillManager.fillReport(jasperReport, jasperParameterMap, new JREmptyDataSource());
+			
+			//2) JasperPrint (-> Html or PDF)
+			if("HTML".equalsIgnoreCase(reportType)){
+				generateReportToHtml(jasperPrint, request, response);
+			}
+			else if("XLS".equalsIgnoreCase(reportType)){
+				JRXlsExporter exporter = new JRXlsExporter();
+				String path = request.getSession().getServletContext().getRealPath("/resources/jasper/"+ fileName);
+				
+				String xlsPath = path + ".xls";
+				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(xlsPath));
+				
+				SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
+				configuration.setOnePagePerSheet(true);
+				configuration.setDetectCellType(true);
+				configuration.setCollapseRowSpan(false);
+				
+				exporter.setConfiguration(configuration);
+				exporter.exportReport();
+			}
+			else if("PDF".equalsIgnoreCase(reportType)){
+				generateReportToPDF(response, jasperParameterMap, jasperReport, new JREmptyDataSource()); 
+			}
+			else{
+				System.out.println("hello...");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void generateReportToPDF(HttpServletResponse response, Map<String,Object> jasperParameterMap, JasperReport jasperReport, JRDataSource dataSource){
+		byte [] binary = null;
+		try {
+			binary = JasperRunManager.runReportToPdf(jasperReport, jasperParameterMap, dataSource);
+			response.reset();
+			response.resetBuffer();
+			response.setContentType("application/pdf");
+			response.setContentLength(binary.length);
+			response.setCharacterEncoding("UTF-8");
+			ServletOutputStream outputStream = response.getOutputStream();
+			outputStream.write(binary, 0, binary.length);
+			outputStream.flush();
+			outputStream.close();
+		} catch (JRException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }

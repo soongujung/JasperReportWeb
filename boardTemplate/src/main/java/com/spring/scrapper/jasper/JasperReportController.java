@@ -126,41 +126,41 @@ public class JasperReportController {
 		parameterMap.put("authorName", authorName);
 		parameterMap.put("reportType", reportType);
 		
-		//1) getCompiledFile(reportFileName, request) 
-		try {
-			JasperReport jasperReport = jasperService.compileFile(fileName, request);
-			JdbcDataAdapterImpl jasperJdbc = new JdbcDataAdapterImpl();
-//			Class.forName("com.mysql.jdbc.Driver");
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/scrapper?useSSL=false&serverTimezone=UTC","scrapper","1111");
-			//2) JasperPrint (-> Html or PDF)
-			if("HTML".equalsIgnoreCase(reportType)){
-				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameterMap, conn1);
-				jasperService.generateReportToHtml(jasperPrint, request, response);
-			}
-			else if("XLS".equalsIgnoreCase(reportType)){
-				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameterMap, conn1);
-				JRXlsExporter exporter = new JRXlsExporter();
-				String path = request.getSession().getServletContext().getRealPath("/resources/jasper/"+ fileName);
-				String xlsPath = path + ".xls";
-				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(xlsPath));
-				SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
-				configuration.setOnePagePerSheet(true);
-				configuration.setDetectCellType(true);
-				configuration.setCollapseRowSpan(false);
-				exporter.setConfiguration(configuration);
-				exporter.exportReport();
-			}
-			else if("PDF".equalsIgnoreCase(reportType)){
-				response = jasperService.generateReportToPDF(response, parameterMap, jasperReport, conn1, "");
-			}
-			else{
-				System.out.println("hello...");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		//1) getCompiledFile(reportFileName, request) 
+//		try {
+//			JasperReport jasperReport = jasperService.compileFile(fileName, request);
+//			JdbcDataAdapterImpl jasperJdbc = new JdbcDataAdapterImpl();
+////			Class.forName("com.mysql.jdbc.Driver");
+//			Class.forName("com.mysql.cj.jdbc.Driver");
+//			Connection conn1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/scrapper?useSSL=false&serverTimezone=UTC","scrapper","1111");
+//			//2) JasperPrint (-> Html or PDF)
+//			if("HTML".equalsIgnoreCase(reportType)){
+//				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameterMap, conn1);
+//				jasperService.generateReportToHtml(jasperPrint, request, response);
+//			}
+//			else if("XLS".equalsIgnoreCase(reportType)){
+//				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameterMap, conn1);
+//				JRXlsExporter exporter = new JRXlsExporter();
+//				String path = request.getSession().getServletContext().getRealPath("/resources/jasper/"+ fileName);
+//				String xlsPath = path + ".xls";
+//				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+//				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(xlsPath));
+//				SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
+//				configuration.setOnePagePerSheet(true);
+//				configuration.setDetectCellType(true);
+//				configuration.setCollapseRowSpan(false);
+//				exporter.setConfiguration(configuration);
+//				exporter.exportReport();
+//			}
+//			else if("PDF".equalsIgnoreCase(reportType)){
+//				response = jasperService.generateReportToPDF(response, parameterMap, jasperReport, conn1, "");
+//			}
+//			else{
+//				System.out.println("hello...");
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		
 	}
 	
