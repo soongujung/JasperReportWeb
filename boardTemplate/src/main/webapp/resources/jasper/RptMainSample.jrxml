@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RptPerfDevice" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b20edeae-0283-46fc-a591-f05a5a1b6eb0">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="subReport01" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="mainDataSource" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="79" uuid="938a1f54-c824-4735-a443-94dbf6e0a261"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[main report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="249" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="249" uuid="f78aa11c-3f2a-4300-979c-9ab6870b98e4"/>
+				<dataSourceExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get(0)]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{subReport01}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

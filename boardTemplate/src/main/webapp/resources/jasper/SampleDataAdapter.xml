@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dsDataAdapter class="net.sf.jasperreports.data.ds.DataSourceDataAdapterImpl"><name>SampleDataAdapter</name><factoryClass>com.spring.scrapper.jasper.SampleDataSource</factoryClass><methodToCall>getDataSource</methodToCall></dsDataAdapter>
