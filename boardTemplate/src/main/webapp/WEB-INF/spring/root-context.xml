@@ -32,6 +32,47 @@
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
 	</bean>
 	
+	<bean id="birtController" class="com.spring.scrapper.birt.BirtController">
+		<property name="reportEngine" ref="reportEngine"/>
+		<property name="renderOptions">
+			<map>
+				<entry key="HTML_RENDER_CONTEXT"
+					value-ref="htmlRenderContext" />
+				<entry key="PDF_RENDER_CONTEXT"
+					value-ref="pdfRenderContext" />
+			</map>
+		</property>
+	</bean>
+	
+	<!-- BIRT config -->
+	<bean id="birtConfig" class="com.spring.scrapper.birt.util.BirtConfiguration">
+		<property name="birtRuntimeLocation" value="${eclipse.birt.home}/ReportEngine"/>
+		<property name="logLocation" value="${eclipse.birt.logdir}" /> 
+	</bean>
+	
+	<bean id="platformListener" 
+		class="com.spring.scrapper.birt.util.BirtPlatformListener" 
+		init-method="start" destroy-method="shutdown">
+		<property name="engineConfig">
+			<bean factory-bean="birtConfig" factory-method="getEngineConfig"/>
+		</property>
+	</bean>
+	
+	<bean id="reportEngine" factory-bean="platformListener" factory-method="getReportEngine"/>
+	
+	<!-- Render context beans -->
+	<bean id="pdfRenderContext"
+		class="org.eclipse.birt.report.engine.api.PDFRenderContext">
+		<property name="supportedImageFormats" value="JPG;PNG;BMP;SVG" />
+	</bean>
+
+	<bean id="htmlRenderContext"
+		class="org.eclipse.birt.report.engine.api.HTMLRenderContext">
+		<property name="supportedImageFormats" value="JPG;PNG;BMP" />
+		<property name="baseImageURL" value="${springbirt.url}/reportImage.html?id="/>
+		<property name="imageDirectory" value="${eclipse.images.dir}"/>
+	</bean>
+	
 	<!-- 
 	<bean id="viewMappings" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
 		<property name="basename" value="classpath:config/jasperreport.properties"/>

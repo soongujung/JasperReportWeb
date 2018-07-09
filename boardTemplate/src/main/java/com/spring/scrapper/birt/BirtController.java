@@ -35,6 +35,9 @@ public class BirtController {
 	@Inject
 	private IReportEngine birtEngine;
 	
+	private IReportEngine reportEngine;
+	private Map renderOptions;
+	
 	@ModelAttribute("birtFormatMap")
 	public Map<String, String> getBirtBookFormats(){
 		Map<String, String> parameterMap = new HashMap<>();
