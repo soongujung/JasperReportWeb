@@ -6,15 +6,15 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title> Jasper Report 페이지 </title>
+	<title> BIRT 리포팅 페이지 </title>
 </head>
 <body>
 <div id="header">
-	<h1> ${jasperBookInputFormDto.reportType} 샘플 페이지 </h1>
+	<h1>PDF 샘플 페이지 </h1>
 </div>
 
 <div id="pdf_section">
-	<iframe src="http://localhost:8080/scrapper/birt/generate?authorName=${jasperBookInputFormDto.authorName}&reportType=${jasperBookInputFormDto.reportType}" height="500px" width="1000px">
+	<iframe src="http://localhost:8080/scrapper/birt/generate?authorName=박문성&reportType=PDF" height="500px" width="1000px">
 		<p>브라우저가 iframe을 지원하지 않습니다...</p>
 	</iframe>
 </div>

@@ -6,17 +6,17 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title> Jasper Report 페이지 </title>
+	<title> BIRT 샘플 기능 목차 </title>
 </head>
 <body>
 <div id="header">
-	<h1> ${jasperBookInputFormDto.reportType} 샘플 페이지 </h1>
+	<h1> BIRT 샘플 프로젝트 목차  </h1>
 </div>
-
-<div id="pdf_section">
-	<iframe src="http://localhost:8080/scrapper/birt/generate?authorName=${jasperBookInputFormDto.authorName}&reportType=${jasperBookInputFormDto.reportType}" height="500px" width="1000px">
-		<p>브라우저가 iframe을 지원하지 않습니다...</p>
-	</iframe>
+<div>
+	<ul>
+		<li><a href="http://localhost:8080/scrapper/birt/types"><span>Type(PDF,HTML)별 출력 테스트 페이지</span></a></li>
+		<li><a href="http://localhost:8080/scrapper/birt/iframe_menu"><span>IFrame Sample 메인 페이지 </span></a></li>
+	</ul>
 </div>
 </body>
 </html>

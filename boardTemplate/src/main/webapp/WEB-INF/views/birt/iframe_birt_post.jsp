@@ -10,11 +10,11 @@
 </head>
 <body>
 <div id="header">
-	<h1> ${jasperBookInputFormDto.reportType} 샘플 페이지 </h1>
+	<h1> ${birtBookInputFormDto.reportType} 샘플 페이지 </h1>
 </div>
 
 <div id="pdf_section">
-	<iframe src="http://localhost:8080/scrapper/birt/generate?authorName=${jasperBookInputFormDto.authorName}&reportType=${jasperBookInputFormDto.reportType}" height="500px" width="1000px">
+	<iframe src="http://localhost:8080/scrapper/birt/generate?authorName=${birtBookInputFormDto.authorName}&reportType=${birtBookInputFormDto.reportType}" height="500px" width="1000px">
 		<p>브라우저가 iframe을 지원하지 않습니다...</p>
 	</iframe>
 </div>
