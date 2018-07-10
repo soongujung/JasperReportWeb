@@ -105,4 +105,13 @@ public class BirtController {
 		writer.print("");
 		return null;
 	}
+	
+	public void setReportEngine(IReportEngine reportEngine) {
+		this.reportEngine = reportEngine;
+	}
+
+	public void setRenderOptions(Map renderOptions) {
+		this.renderOptions = renderOptions;
+	}	
+	
 }

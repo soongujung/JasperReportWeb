@@ -47,4 +47,13 @@ public class BirtConfiguration {
 
 	    return engineConfig;
 	}
+
+	public String getLogLocation() {
+		return logLocation;
+	}
+
+	public void setLogLocation(String logLocation) {
+		this.logLocation = logLocation;
+	}
+	
 }
