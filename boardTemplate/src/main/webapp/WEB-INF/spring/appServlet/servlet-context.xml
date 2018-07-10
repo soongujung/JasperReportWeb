@@ -30,12 +30,6 @@
 	<beans:bean id="authInterceptor" class="com.spring.scrapper.interceptor.AuthInterceptor">
 	</beans:bean>
 	
-<!-- 	<beans:bean id="reportController" class="com.spring.scrapper.birt.BirtController"> -->
-<!-- 		<beans:property name="reportEngine" ref="reportEngine"/> -->
-<!-- 	</beans:bean> -->
-	
-<!-- 	<beans:bean id="reportEngine" factory-bean="platformListener" factory-method="getReportEngine" /> -->
-	
 	<interceptors>
 		<interceptor>
 			<mapping path="/user/loginPost"/>

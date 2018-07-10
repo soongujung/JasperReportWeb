@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,10 +33,11 @@ public class BirtController {
 	@Inject
 	private BirtService birtService;
 	
-	@Inject
-	private IReportEngine birtEngine;
+//	@Autowired
+//	private IReportEngine birtEngine;
+//	@Autowired
+//	private IReportEngine reportEngine;
 	
-	private IReportEngine reportEngine;
 	private Map renderOptions;
 	
 	@ModelAttribute("birtFormatMap")
@@ -45,6 +47,11 @@ public class BirtController {
 		parameterMap.put("HTML", "html");
 		parameterMap.put("XLS", "xls");
 		return parameterMap;
+	}
+	
+	@RequestMapping(value="/sample", method=RequestMethod.GET)
+	public String getSampleBirt(){
+		return "birt/sample";
 	}
 	
 	@RequestMapping(value="/list", method=RequestMethod.GET)
@@ -106,9 +113,9 @@ public class BirtController {
 		return null;
 	}
 	
-	public void setReportEngine(IReportEngine reportEngine) {
-		this.reportEngine = reportEngine;
-	}
+//	public void setReportEngine(IReportEngine reportEngine) {
+//		this.reportEngine = reportEngine;
+//	}
 
 	public void setRenderOptions(Map renderOptions) {
 		this.renderOptions = renderOptions;
