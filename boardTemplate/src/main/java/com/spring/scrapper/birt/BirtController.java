@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.spring.scrapper.birt.dto.BirtBookInputFormDto;
+import com.spring.scrapper.birt.dto.ReportDto;
 import com.spring.scrapper.birt.vo.BirtBookInputFormVO;
 import com.spring.scrapper.jasper.domain.JasperBookInputFormVO;
 import com.spring.scrapper.jasper.domain.dto.JasperBookInputFormDTO;
@@ -49,9 +51,14 @@ public class BirtController {
 		return parameterMap;
 	}
 	
-	@RequestMapping(value="/sample", method=RequestMethod.GET)
-	public String getSampleBirt(){
-		return "birt/sample";
+	@RequestMapping(value="/report/sample", method=RequestMethod.GET)
+	public String getSample(){
+		return "birt/report";
+	}
+	
+	@RequestMapping(value="/report/list", method=RequestMethod.GET)
+	public List<ReportDto> getReportList(){
+		return birtService.getReports();
 	}
 	
 	@RequestMapping(value="/list", method=RequestMethod.GET)

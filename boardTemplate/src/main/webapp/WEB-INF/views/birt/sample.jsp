@@ -15,12 +15,26 @@
 <link href="assets/css/page.css" rel="stylesheet">
 </head>
 <body>
+	<%
+		System.out.println("0");
+	%>
 	<div class="container">
+	<%
+		System.out.println("1");
+	%>
 		<h3>
-			Reports (<a href="javascript:void(0);" class="reload-link">Reload</a>)
+			Reports.... (<a href="javascript:void(0);" class="reload-link">Reload</a>)
 		</h3>
 		<div class="row report-rows"></div>
+		<%
+			System.out.println("2");
+		%>
 		<div class="report-view" style="display: none">
+		<h3>AAAAAAA</h3>
+		<%
+			System.out.println("3");
+		%>
+		<h3>BBBBBBB</h3>
 			<h2>
 				<span></span> <a href="javascript:void(0)">back</a>
 			</h2>
@@ -28,15 +42,7 @@
 				<form class="form-inline">
 					<div class="form-group">
 						<label for="exampleInputName2">Name</label> 
-						<input 	type="text"
-								class="form-control" id="exampleInputName2"
-								placeholder="Jane Doe">
-					</div>
-					<div class="form-group">
-						<label 	for="exampleInputEmail2">Email</label> 
-						<input type="email"
-								class="form-control" id="exampleInputEmail2"
-								placeholder="jane.doe@example.com">
+						<input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
 					</div>
 					<button type="submit" class="btn btn-default">Generate</button>
 				</form>
@@ -48,6 +54,6 @@
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="assets/jquery/jquery-3.1.0.min.js""></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="assets/js/page.js"></script>
+	<script src="assets/js/report.js"></script>
 </body>
 </html>
