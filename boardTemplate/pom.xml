@@ -379,6 +379,20 @@
 			<version>4.4.2</version>
 		</dependency>
 		
+		<!-- https://mvnrepository.com/artifact/org.eclipse.birt.runtime/viewservlets -->
+		<dependency>
+		    <groupId>org.eclipse.birt.runtime</groupId>
+		    <artifactId>viewservlets</artifactId>
+		    <version>4.4.1</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/javax.xml.rpc/javax.xml.rpc-api -->
+		<dependency>
+		    <groupId>javax.xml.rpc</groupId>
+		    <artifactId>javax.xml.rpc-api</artifactId>
+		    <version>1.1.2</version>
+		</dependency>
+
 		<!-- Servlet -->
 		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
 		<dependency>
