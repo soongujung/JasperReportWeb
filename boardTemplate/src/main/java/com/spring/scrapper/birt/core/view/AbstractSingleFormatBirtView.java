@@ -284,6 +284,7 @@ public abstract class AbstractSingleFormatBirtView extends AbstractUrlBasedView 
 
         return !reportName.toLowerCase().endsWith(".rptdesign") ? reportName + ".rptdesign" : reportName;
     }
+    
     private String canonicalizeDocName(String docName) {
         ///Assert.hasText(reportName);
         if (!StringUtils.hasText(docName))
@@ -291,6 +292,7 @@ public abstract class AbstractSingleFormatBirtView extends AbstractUrlBasedView 
 
         return !docName.toLowerCase().endsWith(".rptdocument") ? docName + ".rptdocument" : docName;
     }
+    
     @SuppressWarnings("unchecked")
     protected void renderMergedOutputModel(Map<String, Object> modelData, HttpServletRequest request, HttpServletResponse response) throws Exception {
         FileInputStream fis = null;

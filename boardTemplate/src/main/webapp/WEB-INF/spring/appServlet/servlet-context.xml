@@ -11,6 +11,14 @@
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
+	
+	<default-servlet-handler/>
+	
+<!-- 	<resources mapping="/webcontent/birt/**" location="/WEB-INF/birt/"/> -->
+	<resources mapping="/birt/**" location="/WEB-INF/birt/"/>
+	
+<!-- 	<resources location="birt/" mapping="/webcontent/birt/**"></resources> -->
+	
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />

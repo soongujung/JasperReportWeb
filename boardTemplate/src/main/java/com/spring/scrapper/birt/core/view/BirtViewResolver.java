@@ -41,16 +41,16 @@ public class BirtViewResolver extends UrlBasedViewResolver{
         this.reportParameters = reportParameters;
     }
 
-//    @Override
-//    protected AbstractUrlBasedView buildView(String viewName) throws Exception {
-//        AbstractSingleFormatBirtView view = (AbstractSingleFormatBirtView) super.buildView(viewName);
-//        view.setDataSource(this.dataSource);
-//        view.setBirtEngine(this.birtEngine);
-//        view.setReportParameters(this.reportParameters);
-//        view.setReportName(viewName);
-//        view.setReportsDirectory(this.reportsDirectory);
-//        return view;
-//    }
+    @Override
+    protected AbstractUrlBasedView buildView(String viewName) throws Exception {
+        AbstractSingleFormatBirtView view = (AbstractSingleFormatBirtView) super.buildView(viewName);
+        view.setDataSource(this.dataSource);
+        view.setBirtEngine(this.birtEngine);
+        view.setReportParameters(this.reportParameters);
+        view.setReportName(viewName);
+        view.setReportsDirectory(this.reportsDirectory);
+        return view;
+    }
 
 
 //    @Override
