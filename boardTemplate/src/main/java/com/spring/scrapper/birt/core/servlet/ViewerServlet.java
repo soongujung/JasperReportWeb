@@ -45,7 +45,7 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet{
 		// handle 'run' pattern
 		run = new RunFragment( );
 		run.buildComposite( );
-		run.setJSPRootPath( "/birt" ); //$NON-NLS-1$		
+		run.setJSPRootPath( "/birt" ); //$NON-NLS-1$
 	}
 
 	/**
