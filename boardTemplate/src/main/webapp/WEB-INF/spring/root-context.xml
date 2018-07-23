@@ -32,51 +32,60 @@
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
 	</bean>
 	
-<!-- 	<bean id="birtController" class="com.spring.scrapper.birt.BirtController"> -->
-<!-- 		<property name="reportEngine" ref="reportEngine"/> -->
-<!-- 		<property name="renderOptions"> -->
-<!-- 			<map> -->
-<!-- 				<entry key="HTML_RENDER_CONTEXT" -->
-<!-- 					value-ref="htmlRenderContext" /> -->
-<!-- 				<entry key="PDF_RENDER_CONTEXT" -->
-<!-- 					value-ref="pdfRenderContext" /> -->
-<!-- 			</map> -->
+<!-- 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
+<!-- 		<property name="location"> -->
+<!-- 			<value>classpath:springbirt.properties</value> -->
+<!-- 		</property> -->
+<!-- 		<property name="ignoreResourceNotFound" value="true" /> -->
+<!-- 		<property name="systemPropertiesModeName"> -->
+<!-- 			<value>SYSTEM_PROPERTIES_MODE_OVERRIDE</value> -->
+<!-- 		</property> -->
+<!-- 		<property name="properties"> -->
+<!-- 			<props> -->
+<!-- 				<prop key="birt.logdir">/WEB-INF/log/</prop> -->
+<!-- 				<prop key="images.dir">/WEB-INF/log/images</prop> -->
+<!-- 				<prop key="springbirt.url">http://localhost:8080/springbirt</prop> -->
+<!-- 			</props> -->
 <!-- 		</property> -->
 <!-- 	</bean> -->
 	
-<!-- 	 -->
 <!-- 	<bean id="birtConfig" class="com.spring.scrapper.birt.util.BirtConfiguration"> -->
-<!-- 		<property name="birtRuntimeLocation" value="${eclipse.birt.home}/ReportEngine"/> -->
-<!-- 		<property name="logLocation" value="${eclipse.birt.logdir}" />  -->
+<!-- 		<property name="logLocation" value="${birt.logdir}" /> -->
 <!-- 	</bean> -->
 	
-<!-- 	<bean id="platformListener"  -->
-<!-- 		class="com.spring.scrapper.birt.util.BirtPlatformListener"  -->
-<!-- 		init-method="start" destroy-method="shutdown"> -->
+<!-- 	<bean id="platformListener" class="com.spring.scrapper.birt.util.BirtPlatformListener" init-method="start" destroy-method="destroy"> -->
 <!-- 		<property name="engineConfig"> -->
 <!-- 			<bean factory-bean="birtConfig" factory-method="getEngineConfig"/> -->
 <!-- 		</property> -->
 <!-- 	</bean> -->
 	
 <!-- 	<bean id="reportEngine" factory-bean="platformListener" factory-method="getReportEngine"/> -->
-	
-<!-- 	 -->
+
 <!-- 	<bean id="pdfRenderContext" -->
 <!-- 		class="org.eclipse.birt.report.engine.api.PDFRenderContext"> -->
 <!-- 		<property name="supportedImageFormats" value="JPG;PNG;BMP;SVG" /> -->
 <!-- 	</bean> -->
-
-<!-- 	<bean id="htmlRenderContext" -->
-<!-- 		class="org.eclipse.birt.report.engine.api.HTMLRenderContext"> -->
+	
+<!-- 	<bean id="htmlRenderContext" class="org.eclipse.birt.report.engine.api.HTMLRenderContext"> -->
 <!-- 		<property name="supportedImageFormats" value="JPG;PNG;BMP" /> -->
 <!-- 		<property name="baseImageURL" value="${springbirt.url}/reportImage.html?id="/> -->
-<!-- 		<property name="imageDirectory" value="${eclipse.images.dir}"/> -->
+<!-- 		<property name="imageDirectory" value="${images.dir}"/> -->
 <!-- 	</bean> -->
 	
-	<!-- 
-	<bean id="viewMappings" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
-		<property name="basename" value="classpath:config/jasperreport.properties"/>
-		<property name="order" value="0"/>
-	</bean>
-	 --> 
+<!-- 	<bean id="birtViewResolver" class="com.spring.scrapper.birt.core.view.BirtViewResolver"> -->
+<!-- 		<property name="birtEngine" ref="reportEngine"/> -->
+<!-- 		<property name="order" value="1"></property> -->
+<!-- 		<property name="viewClass" value="com.spring.scrapper.birt.core.view.HtmlSingleFormatBirtView"/> -->
+<!-- 		<property name="prefix" value="/WEB-INF/report"/> -->
+<!-- 		<property name="suffix" value=".rptdesign"/> -->
+<!-- 		<property name="reportsDirectory" value="/WEB-INF/report"/> -->
+<!-- 		<property name="dataSource" ref="dataSource"/> -->
+<!-- 		<property name="reportParameters"> -->
+<!-- 			<map> -->
+<!-- 				<entry key="HTML_RENDER_CONTEXT" value-ref="htmlRenderContext"/> -->
+<!-- 				<entry key="PDF_RENDER_CONTEXT" value-ref="pdfRenderContext"/> -->
+<!-- 			</map> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+
 </beans>

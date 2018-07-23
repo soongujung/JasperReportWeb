@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.naming.NamingException;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -49,6 +50,14 @@ public class BirtController {
 		parameterMap.put("HTML", "html");
 		parameterMap.put("XLS", "xls");
 		return parameterMap;
+	}
+	
+	@RequestMapping(value="/report/currDir", method=RequestMethod.GET)
+	public String getDir(HttpServletRequest request){
+		ServletContext context = request.getServletContext();
+		String path = context.getContextPath();
+		System.out.println("context path :: " + path);
+		return "birt/report";
 	}
 	
 	@RequestMapping(value="/report/sample", method=RequestMethod.GET)
