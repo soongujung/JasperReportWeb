@@ -376,17 +376,38 @@
 		<dependency>
 			<groupId>org.eclipse.birt.runtime</groupId>
 			<artifactId>org.eclipse.birt.runtime</artifactId>
-			<version>4.4.2</version>
+			<version>4.2.0</version>
 		</dependency>
 		
-		<!-- Servlet -->
-		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<!-- https://mvnrepository.com/artifact/org.eclipse.birt.runtime/viewservlets -->
+		<dependency>
+		    <groupId>org.eclipse.birt.runtime</groupId>
+		    <artifactId>viewservlets</artifactId>
+		    <version>4.2.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.axis/axis -->
+		<dependency>
+		    <groupId>org.apache.axis</groupId>
+		    <artifactId>axis</artifactId>
+		    <version>1.4</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/commons-discovery/commons-discovery -->
+		<dependency>
+		    <groupId>commons-discovery</groupId>
+		    <artifactId>commons-discovery</artifactId>
+		    <version>0.5</version>
+		</dependency>
+		
 		<dependency>
 		    <groupId>javax.servlet</groupId>
 		    <artifactId>javax.servlet-api</artifactId>
 		    <version>4.0.1</version>
 		    <scope>provided</scope>
 		</dependency>
+		
+		
 
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
@@ -399,7 +420,7 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-				
+						
 	</dependencies>
     <build>
         <plugins>
