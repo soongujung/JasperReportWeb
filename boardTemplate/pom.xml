@@ -348,23 +348,6 @@
 			<version>2.9.4</version>
 		</dependency>
 		
-		<!-- 
-		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports</artifactId>
-			<version>6.5.1</version>
-		</dependency>
-		 -->
-		
-		<!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports-fonts -->
-		<!-- 
-		<dependency>
-		    <groupId>net.sf.jasperreports</groupId>
-		    <artifactId>jasperreports-fonts</artifactId>
-		    <version>6.0.0</version>
-		</dependency>
-		 -->
-		 
 		 <!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
 		<dependency>
 		    <groupId>net.sf.jasperreports</groupId>
@@ -374,16 +357,30 @@
 		
 		<!-- https://mvnrepository.com/artifact/org.eclipse.birt.runtime/org.eclipse.birt.runtime -->
 		<dependency>
-			<groupId>org.eclipse.birt.runtime</groupId>
-			<artifactId>org.eclipse.birt.runtime</artifactId>
-			<version>4.2.0</version>
+		    <groupId>org.eclipse.birt.runtime</groupId>
+		    <artifactId>org.eclipse.birt.runtime</artifactId>
+		    <version>4.4.1</version>
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.eclipse.birt.runtime/viewservlets -->
 		<dependency>
 		    <groupId>org.eclipse.birt.runtime</groupId>
 		    <artifactId>viewservlets</artifactId>
-		    <version>4.2.0</version>
+		    <version>4.4.1</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.eclipse.birt.runtime/viewservlets -->
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.eclipse.birt.runtime</groupId> -->
+<!-- 		    <artifactId>viewservlets</artifactId> -->
+<!-- 		    <version>4.4.1</version> -->
+<!-- 		</dependency> -->
+		
+		<!-- https://mvnrepository.com/artifact/javax.xml.rpc/javax.xml.rpc-api -->
+		<dependency>
+		    <groupId>javax.xml.rpc</groupId>
+		    <artifactId>javax.xml.rpc-api</artifactId>
+		    <version>1.1.2</version>
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.apache.axis/axis -->
@@ -400,33 +397,28 @@
 		    <version>0.5</version>
 		</dependency>
 		
-<<<<<<< HEAD
-=======
-		<!-- https://mvnrepository.com/artifact/org.eclipse.birt.runtime/viewservlets -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.batch/spring-batch-core -->
 		<dependency>
-		    <groupId>org.eclipse.birt.runtime</groupId>
-		    <artifactId>viewservlets</artifactId>
-		    <version>4.4.1</version>
+		    <groupId>org.springframework.batch</groupId>
+		    <artifactId>spring-batch-core</artifactId>
+		    <version>4.0.1.RELEASE</version>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/javax.xml.rpc/javax.xml.rpc-api -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
 		<dependency>
-		    <groupId>javax.xml.rpc</groupId>
-		    <artifactId>javax.xml.rpc-api</artifactId>
-		    <version>1.1.2</version>
-		</dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-web</artifactId>
+		    <version>2.0.3.RELEASE</version>
+		</dependency>		
 
 		<!-- Servlet -->
 		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
->>>>>>> 231bffc39980221a27505a5b6a15ac4a55de5e75
 		<dependency>
 		    <groupId>javax.servlet</groupId>
 		    <artifactId>javax.servlet-api</artifactId>
 		    <version>4.0.1</version>
 		    <scope>provided</scope>
 		</dependency>
-		
-		
 
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
